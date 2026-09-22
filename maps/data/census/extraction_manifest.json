@@ -1,0 +1,264 @@
+{
+  "generated_utc": "2026-07-28T20:07:58+00:00",
+  "package": {
+    "name": "wspr-station-census",
+    "version": "0.1.0",
+    "python": "3.12.9",
+    "platform": "macOS-26.4-arm64-arm-64bit",
+    "polar_psws_commit": "8dcacc9"
+  },
+  "query": {
+    "endpoint": "http://wd10.wsprdaemon.org/",
+    "period_start": "2025-06-01",
+    "period_end_exclusive": "2026-07-01",
+    "period_days": 395,
+    "tables": [
+      "wspr.rx",
+      "wsprdaemon.spots"
+    ],
+    "stats_chunk_days": 10,
+    "detail_chunk_days": 15,
+    "families": [
+      {
+        "name": "stats_rx_wsprnet",
+        "windows": 46,
+        "description": "per-rx statistics from wspr.rx"
+      },
+      {
+        "name": "stats_tx_wsprnet",
+        "windows": 46,
+        "description": "per-tx statistics from wspr.rx"
+      },
+      {
+        "name": "stats_rx_wsprdaemon",
+        "windows": 46,
+        "description": "per-rx statistics from wsprdaemon.spots"
+      },
+      {
+        "name": "detail_rx_wsprnet",
+        "windows": 33,
+        "description": "per-rx band/grid detail from wspr.rx"
+      },
+      {
+        "name": "detail_tx_wsprnet",
+        "windows": 33,
+        "description": "per-tx band/grid detail from wspr.rx"
+      },
+      {
+        "name": "detail_rx_wsprdaemon",
+        "windows": 33,
+        "description": "per-rx band/grid detail from wsprdaemon.spots"
+      },
+      {
+        "name": "membership_tx_wsprdaemon",
+        "windows": 33,
+        "description": "transmitter presence in wsprdaemon.spots"
+      },
+      {
+        "name": "population_rx_wsprnet",
+        "windows": 13,
+        "description": "unfiltered rx population in wspr.rx"
+      },
+      {
+        "name": "population_tx_wsprnet",
+        "windows": 13,
+        "description": "unfiltered tx population in wspr.rx"
+      },
+      {
+        "name": "population_rx_wsprdaemon",
+        "windows": 13,
+        "description": "unfiltered rx population in wsprdaemon.spots"
+      },
+      {
+        "name": "population_tx_wsprdaemon",
+        "windows": 13,
+        "description": "unfiltered tx population in wsprdaemon.spots"
+      }
+    ],
+    "cache": [
+      {
+        "family": "stats_rx_wsprnet",
+        "expected": 46,
+        "cached": 46,
+        "bytes": 8372876,
+        "complete": true
+      },
+      {
+        "family": "stats_tx_wsprnet",
+        "expected": 46,
+        "cached": 46,
+        "bytes": 42691841,
+        "complete": true
+      },
+      {
+        "family": "stats_rx_wsprdaemon",
+        "expected": 46,
+        "cached": 46,
+        "bytes": 346486,
+        "complete": true
+      },
+      {
+        "family": "detail_rx_wsprnet",
+        "expected": 33,
+        "cached": 33,
+        "bytes": 9821457,
+        "complete": true
+      },
+      {
+        "family": "detail_tx_wsprnet",
+        "expected": 33,
+        "cached": 33,
+        "bytes": 31406177,
+        "complete": true
+      },
+      {
+        "family": "detail_rx_wsprdaemon",
+        "expected": 33,
+        "cached": 33,
+        "bytes": 1066520,
+        "complete": true
+      },
+      {
+        "family": "membership_tx_wsprdaemon",
+        "expected": 33,
+        "cached": 33,
+        "bytes": 8525809,
+        "complete": true
+      },
+      {
+        "family": "population_rx_wsprnet",
+        "expected": 13,
+        "cached": 13,
+        "bytes": 1493,
+        "complete": true
+      },
+      {
+        "family": "population_tx_wsprnet",
+        "expected": 13,
+        "cached": 13,
+        "bytes": 1525,
+        "complete": true
+      },
+      {
+        "family": "population_rx_wsprdaemon",
+        "expected": 13,
+        "cached": 13,
+        "bytes": 1434,
+        "complete": true
+      },
+      {
+        "family": "population_tx_wsprdaemon",
+        "expected": 13,
+        "cached": 13,
+        "bytes": 1507,
+        "complete": true
+      }
+    ],
+    "extraction": {}
+  },
+  "filters": {
+    "tx_server_side_pregate": {
+      "min_spots_per_window": 2,
+      "min_distinct_receivers_per_window": 2,
+      "rationale": "The unfiltered transmitter population is ~167,000 callsigns per month, dominated by balloon-telemetry callsigns with fabricated grids and by single false decodes. Callsigns not heard at least twice by at least two receivers within a window cannot pass any downstream persistence gate."
+    },
+    "tx_detail_min_spots_per_window": 2,
+    "wd_membership_min_spots_per_window": 2,
+    "noise_validity": "rms_noise BETWEEN -200 AND -50 dBm/Hz; removes the 0 and -999 sentinels and grossly miscalibrated sites",
+    "geometry": "positions derived from the Maidenhead grid, not from the lat/lon columns, which carry -999 sentinels (1.4% of wsprdaemon.spots rows) and out-of-range latitudes in both tables"
+  },
+  "results": {
+    "rows": {
+      "rx_stations": 22015,
+      "tx_stations": 609716,
+      "rx_station_band": 77053,
+      "tx_station_band": 697240,
+      "rx_station_month": 69962,
+      "tx_station_month": 752641,
+      "wd_receivers": 565,
+      "population": 52
+    },
+    "rx_quality_tiers": {
+      "D": 14271,
+      "C": 4150,
+      "B": 2395,
+      "A": 1199
+    },
+    "tx_quality_tiers": {
+      "rejected": 594546,
+      "B": 7336,
+      "A": 4015,
+      "C": 3819
+    },
+    "tx_reject_reasons": {
+      "synthetic_telemetry_callsign": 580500,
+      "too_few_days": 12711,
+      "too_few_spots": 841,
+      "undecodable_grid": 494
+    },
+    "unfiltered_population": {
+      "wsprdaemon.rx": {
+        "months": 13,
+        "max_monthly_distinct_stations": 155,
+        "total_spots": 1017013864
+      },
+      "wsprdaemon.tx": {
+        "months": 13,
+        "max_monthly_distinct_stations": 97745,
+        "total_spots": 1017013864
+      },
+      "wsprnet.rx": {
+        "months": 13,
+        "max_monthly_distinct_stations": 5983,
+        "total_spots": 2577430967
+      },
+      "wsprnet.tx": {
+        "months": 13,
+        "max_monthly_distinct_stations": 167378,
+        "total_spots": 2577430967
+      }
+    },
+    "reconciliation": {
+      "wsprnet": {
+        "population_count_spots": 2577430967,
+        "rx_stations_sum_spots": 2577430967,
+        "ratio": 1.0,
+        "ok": true
+      },
+      "wsprdaemon": {
+        "population_count_spots": 1017013864,
+        "rx_stations_sum_spots": 1017013864,
+        "ratio": 1.0,
+        "ok": true
+      },
+      "station_month_vs_station": {
+        "receivers_compared": 21789,
+        "max_abs_difference": 0,
+        "ok": true
+      }
+    }
+  },
+  "geomagnetic": {
+    "aacgmv2_available": true,
+    "epoch": "2025-12-15",
+    "note": "cgm_lat is NaN when aacgmv2 is not installed; install with pip install 'wspr-station-census[geomag]'"
+  },
+  "caveats": [
+    "n_partners_* are per-window bounds, not period-exact distinct counts: distinct partner counts are not additive across windows and an unbounded uniqExact over the period exceeds the proxy timeout.",
+    "Columns ending _p50_approx / _p90_approx are spot-count-weighted means of per-window quantileTDigest results. Means, minima and maxima are exact.",
+    "wspr.rx keeps the strongest decode per (time, tx, rx, band) while wsprdaemon.spots keeps every receiver instance separately, so n_spots_wsprnet and n_spots_wd_raw are not comparable without reduction.",
+    "Transmitter activity is only observable through receptions, so transmitter counts are convolved with propagation and with receiver density. A transmitter map is partly a map of who was listening.",
+    "band is coded as integer MHz in wspr.rx and as wavelength in meters in wsprdaemon.spots; the codes collide (band=40 is 8 m in one and 40 m in the other). Both are decoded to canonical labels such as '20m'.",
+    "The extended-spot record begins 2020-03-29, so noise-based methods cannot reach earlier than that for any station."
+  ],
+  "outputs": {
+    "rx_stations": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/rx_stations.csv",
+    "tx_stations": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/tx_stations.csv",
+    "rx_station_band": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/rx_station_band.csv",
+    "tx_station_band": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/tx_station_band.csv",
+    "rx_station_month": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/rx_station_month.csv",
+    "tx_station_month": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/tx_station_month.csv",
+    "wd_receivers": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/wd_receivers.csv",
+    "population": "/Users/r01344106/polar_psws_data/wspr_station_census/2025-06-01_2026-07-01/summary/population.csv"
+  }
+}

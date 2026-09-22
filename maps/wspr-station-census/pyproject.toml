@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wspr-station-census"
+version = "0.1.0"
+description = "Station-level census of WSPR transmitters and receivers from the WsprDaemon ClickHouse mirrors."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Nathaniel A. Frissell", email = "nathaniel.frissell@scranton.edu" },
+]
+keywords = ["wspr", "wsprdaemon", "ionosphere", "hamsci", "space-weather", "clickhouse"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "pandas>=2.0",
+    "requests>=2.28",
+]
+
+[project.optional-dependencies]
+# Geomagnetic (AACGM-v2) latitude columns. Optional because the build needs a
+# compiler and the IGRF coefficient files; the census is fully usable without it.
+geomag = ["aacgmv2>=2.6"]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+
+[project.scripts]
+wspr-census = "wspr_station_census.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/HamSCI/polar-psws"
+Issues = "https://github.com/HamSCI/polar-psws/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wspr_station_census"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "D", "NPY"]
+ignore = [
+    "D203",  # incompatible with D211
+    "D213",  # incompatible with D212
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D100", "D103"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+# Lets `pytest` work straight from a clone, without an editable install.
+pythonpath = ["src"]

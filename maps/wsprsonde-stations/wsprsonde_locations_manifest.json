@@ -1,0 +1,31 @@
+{
+  "generated_utc": "2026-08-13 20:34:25",
+  "endpoint": "http://wd10.wsprdaemon.org/",
+  "source_table": "wspr.rx",
+  "curated_list": "data/wsprsonde_stations.csv",
+  "windows": {
+    "activity_days": 30,
+    "offset_days": 3
+  },
+  "thresholds": {
+    "active_within_days": 2,
+    "offset_match_tolerance_hz": 2,
+    "offset_incoherent_hz": 50
+  },
+  "counts": {
+    "units": 21,
+    "sites": 20,
+    "active": 8,
+    "intermittent": 1,
+    "silent": 12,
+    "positioned": 19,
+    "offset_mismatch": 1,
+    "offset_incoherent": 1,
+    "candidates_unlisted": 4
+  },
+  "caveats": [
+    "Positions are Maidenhead cell centres from the curated list, not surveyed coordinates. A 4-character locator is ~78 km across at 40 deg latitude.",
+    "on_air_status is evidence of reception, not of transmitter health. A silent station may be off the air, or may simply not have been heard.",
+    "ok_to_list_public reflects the consent column in the G3ZIL metadata and is 'unknown' for most stations. Do not publish a station without checking it."
+  ]
+}
