@@ -1,0 +1,86 @@
+# madrigal_harc_2026: Figures and Tables for the Madrigal HARC 2026 Paper
+
+## Project Overview
+Public repository holding the code, data extracts and rendered output behind the figures and
+tables of the 2026 paper describing the HamSCI Amateur Radio Communications (HARC) datasets
+(Reverse Beacon Network, WSPRNet, PSKReporter) archived in the MIT Haystack CEDAR Madrigal
+database. The paper builds on Frissell et al. (2014, 2019, 2023). The manuscript itself and the
+private working notes live in `w2naf-academia/madrigal_harc_2026_support`, which carries this
+repository as a submodule. This repository is public and will be archived to Zenodo, so
+everything in it is written for outside readers.
+
+**Lead**: Nathaniel A. Frissell, W2NAF, University of Scranton
+**Collaborators**: see the manuscript author list; not recorded here
+**HamSCI Working Group**: none
+**Institution**: University of Scranton
+**Funder**: NASA (80NSSC21K1772) and NSF (AGS-2045755), per the current manuscript draft
+**Project period**: 2026, through publication of the paper
+
+## Project Goal
+Make every figure and table in the paper reproducible from committed code, with its inputs either
+committed as small extracts or fetched by a committed script.
+
+## Standing Rules
+
+These two are binding on every HamSCI project and are imported here so they load into context
+automatically:
+
+@.claude/rules/ai-governance.md
+@.claude/rules/hamsci-data.md
+
+`.claude/rules/python-code.md` applies to `.py`, `pyproject.toml`, and `requirements*.txt`
+through its own `paths:` frontmatter.
+
+## Repository Structure
+
+```
+madrigal_harc_2026/
+├── CLAUDE.md                     ← this file; project instructions for Claude
+├── LICENSE                       ← GPL-3.0
+├── .gitignore
+├── .claude/
+│   ├── settings.json
+│   ├── commands/commit.md        ← /commit workflow
+│   └── rules/                    ← ai-governance, hamsci-data, python-code
+├── ai/
+│   └── ai_usage_log.md           ← mandatory AI session log
+└── maps/                         ← WSPR station and sampling maps, vendored; see maps/README.md
+```
+
+Planned layout, following `HamSCI/HF-TDOA-Frontiers-2025`: one directory per manuscript figure,
+each with a Jupyter notebook; shared analysis code in a Python package; an `environment.yml`;
+`harc_plot` for HARC plotting where it applies. **Rendered figures are committed** (PNG/JPG),
+so a reader can check a rebuild against them.
+
+`maps/src/movie_maps/{maps,branding}.py` are kept **byte-identical** to their `HamSCI/polar-psws`
+upstream so they can be re-synced without a merge. Do not edit them here.
+
+## Working Conventions
+
+**Public repository.** Nothing unpublished, no collaborator drafts, no operator personal data.
+Check `.claude/rules/hamsci-data.md` before naming any individual station; the vendored WSPRSonde
+snapshot's `ok_to_list_public` field is `unknown` for most stations.
+
+**Commits.** Use the `/commit` command. It logs the AI session, then commits on a feature branch
+and opens a pull request. Prefix AI-assisted commits with `[AI-assisted]`. Reference tracking
+issues (`refs #N`, or `closes #N` only when completion is yours to declare).
+
+**Every change goes through a pull request.** Branch from `origin/main`, commit on the branch,
+push the branch, and open a PR with `gh pr create`. A human maintainer reviews and merges.
+Claude never commits or pushes directly to `main` and never merges.
+
+**Pushing a feature branch and opening its PR is standing permission** once the user has approved
+the commit. Any other push needs explicit instruction. Never force-push or hard-reset. Fetch and
+verify remote state before any push.
+
+**This repository is a submodule** of `madrigal_harc_2026_support`. Its PRs merge first; the
+parent then bumps its pointer to the merged commit, never to an unmerged branch commit.
+
+## AI Governance
+
+Every substantive AI session is logged in `ai/ai_usage_log.md` **before** the work is committed.
+Use `/commit`, which enforces the ordering. The full policy stack is in
+`.claude/rules/ai-governance.md`, which is imported above.
+
+AI work on this repository before 2026-10-10 (for example the `maps/` import at `f9de85c`) is
+logged in the support repository's `ai/ai_usage_log.md`.
