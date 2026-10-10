@@ -85,6 +85,18 @@ verify remote state before any push.
 **This repository is a submodule** of `madrigal_harc_2026_support`. Its PRs merge first; the
 parent then bumps its pointer to the merged commit, never to an unmerged branch commit.
 
+## Template Updates
+
+This repository follows an `ai_project_template`; `.claude/template.json` records which one and
+which of its commits was last adopted. A session-start hook (`.claude/hooks/template_check.sh`,
+registered in `.claude/settings.json`) checks that template at most once a day and, if it has
+moved on, says so at the start of the session. When it does, tell the user and offer
+`/template-sync`, which applies the template's changes **as changes**, on a branch and through a
+PR, without overwriting project-specific content. The check is read-only and silent when offline.
+
+A workflow improvement made here that other projects would want belongs upstream too: propose it
+to the template in the same session.
+
 ## AI Governance
 
 Every substantive AI session is logged in `ai/ai_usage_log.md` **before** the work is committed.
